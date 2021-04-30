@@ -1,15 +1,14 @@
 package com.binarycod.arigato.controllers;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
-public class HomeController {
+@Controller("/error")
+public class ErrorController {
 
-    @GetMapping("/")
-    public String getHome() {
-        return "home";
+    @GetMapping
+    public String getErrorPage(){
+        return "global_error";
     }
-
-
 }

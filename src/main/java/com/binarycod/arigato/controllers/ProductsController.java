@@ -17,70 +17,51 @@ import java.util.stream.Collectors;
 @RequestMapping("/products") 
 public class ProductsController {
 
-    List<Product> productList = new ArrayList<>();
+    private String error = "";
 
     @Autowired
     ProductService productService;
 
     @GetMapping
-    public String getProducts(Model model){
+    public String getProducts(Model model) {
         Integer numberOfCounts = productService.getCount();
 
+        model.addAttribute("error", error);
         model.addAttribute("products", productService.getProducts());
         model.addAttribute("productCount", numberOfCounts);
+
 
         return "product_list";
     }
 
     @GetMapping("/new")
-    public String newProduct(Model model){
+    public String newProduct(Model model) {
         model.addAttribute("product", new Product());
         return "new_product";
     }
 
     @PostMapping
-    public String createProduct(Product product){
-
+    public String createProduct(Product product) {
         productService.createProduct(product);
         return "redirect:/products";
     }
 
     @GetMapping("/delete")
-    public String deleteProduct(@RequestParam Long id){
-        productList = productList
-                .stream()
-                .filter(p -> !p.getId().equals(id))
-                .collect(Collectors.toList());
+    public String deleteProduct(@RequestParam Long id) {
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 
     @GetMapping("/edit")
-    public String editProduct(@RequestParam Long id, Model model){
-        Optional<Product> optionalProduct = productList
-                .stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
-        if(!optionalProduct.isPresent())
+    public String editProduct(@RequestParam Long id, Model model) {
+        Optional<Product> productOptional = productService.getProduct(id);
+
+        if (!productOptional.isPresent()) {
+            error = "No suc product in our store!";
             return "redirect:/products";
-
-        model.addAttribute("product", optionalProduct.get());
-
-        return "edit_product";
-    }
-
-    @PostMapping("/edit")
-    public String saveProduct(Product product){
-        Optional<Product> productOld = productList
-                .stream()
-                .filter(p -> p.getId().equals(product.getId()))
-                .findFirst();
-
-        if(productOld.isPresent()){
-            productList.remove(productOld.get());
-            productList.add(product);
         }
-        return "redirect:/products";
+            model.addAttribute("product", productOptional.get());
+
+            return "edit_product";
     }
-
-
 }
