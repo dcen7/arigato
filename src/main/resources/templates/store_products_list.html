@@ -13,30 +13,30 @@
 <section layout:fragment="content">
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Products</h1>
+            <h1 class="h2">List of Products in Store</h1>
 
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Name of Store </th>
+                    <th scope="col">Product Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Size</th>
-                    <th scope="col">-</th>
+                    <th scope="col">Quantity</th>
+
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="p : ${products}">
+                <tr th:each="pIs : ${productInStore}">
 
-                    <td th:text="${p.id}"></td>
-                    <td th:text="${p.name}"></td>
-                    <td th:text="${p.price}"></td>
-                    <td th:text="${p.size}"></td>
-                    <td>
-                        <a th:href="@{/products/delete(id=${p.id})}" th:text="Delete" class="btn btn-danger"></a> |
-                        <a th:href="@{/products/edit(id=${p.id})}" th:text="Edit" class="btn btn-primary"></a>
-                        <a th:href="@{/manage_store/accept_product(productId=${p.id})}" th:text="PutToStore" class="btn btn-success"></a>
-                    </td>
+                    <td th:text="${pIs.id}"></td>
+                    <td th:text="${pIs.store.name}"></td>
+                    <td th:text="${pIs.product.name}"></td>
+                    <td th:text="${pIs.product.price}"></td>
+                    <td th:text="${pIs.product.size}"></td>
+                    <td th:text="${pIs.quantity}"></td>
+
                 </tr>
                 </tbody>
             </table>

@@ -5,6 +5,7 @@ import com.binarycod.arigato.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +22,9 @@ public class StoreService {
         Store store = storeRepository.getStore(id);
 
         return (store != null) ? Optional.of(store) : Optional.empty();
+    }
+
+    public List<Store> getStoreList() {
+        return storeRepository.getAllStores();
     }
 }

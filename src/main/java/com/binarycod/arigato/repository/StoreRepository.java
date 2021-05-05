@@ -71,6 +71,15 @@ public class StoreRepository {
         return store;
     }
 
+    public List<Store> getAllStores(){
+        String sql = "SELECT st.id, st.name, " +
+                "ad.id as ad_id, ad.address1, " +
+                "ad.address2, ad.city, ad.state, " +
+                "ad.country,ad.zipCode " +
+                "FROM store st, address ad WHERE st.address_id=ad.id;";
+        return jdbcTemplate.query(sql,storeRowMapper);
+    }
+
 
     private RowMapper<Store> storeRowMapper = (rs, rowNum) -> {
         Address address = new Address();
