@@ -1,14 +1,19 @@
 package com.binarycod.arigato.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
 
+    @Id
     Long id;
+
     String name;
     Double price;
     Integer size;
 
     public Product(){}
-
 
     public Product(Long id, String name, Double price, Integer size) {
         this.id = id;
@@ -48,4 +53,5 @@ public class Product {
     public void setSize(Integer size) {
         this.size = size;
     }
+
 }
