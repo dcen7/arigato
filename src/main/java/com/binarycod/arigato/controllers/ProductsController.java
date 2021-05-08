@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products") 
@@ -37,44 +34,30 @@ public class ProductsController {
 
 //        productList.add(product);
         Product p = new Product(id, name, price, size);
-        productService.createProduct(p);
+        productService.createOrUpdateProduct(p);
         return "redirect:/products";
     }
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id){
-//        productList = productList
-//                .stream()
-//                .filter(p -> !p.getId().equals(id))
-//                .collect(Collectors.toList());
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 
     @GetMapping("/edit")
     public String editProduct(@RequestParam Long id, Model model){
-//        Optional<Product> optionalProduct = productList
-//                .stream()
-//                .filter(p -> p.getId().equals(id))
-//                .findFirst();
-//        if(!optionalProduct.isPresent())
-//            return "redirect:/products";
-//
-//        model.addAttribute("product", optionalProduct.get());
+        Optional<Product> productOptional = productService.getProductById(id);
+        if(!productOptional.isPresent())
+            return "redirect:/products";
+
+        model.addAttribute("product", productOptional.get());
 
         return "edit_product";
     }
 
     @PostMapping("/edit")
     public String saveProduct(Product product){
-//        Optional<Product> productOld = productList
-//                .stream()
-//                .filter(p -> p.getId().equals(product.getId()))
-//                .findFirst();
-//
-//        if(productOld.isPresent()){
-//            productList.remove(productOld.get());
-//            productList.add(product);
-//        }
+        productService.createOrUpdateProduct(product);
         return "redirect:/products";
     }
 
