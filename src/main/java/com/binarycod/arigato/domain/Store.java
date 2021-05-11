@@ -16,7 +16,7 @@ public class Store {
     private Address address;
 
     @ManyToMany
-    @JoinTable(name = "store_product")
+    @JoinTable(name = "store_product") // is called join table
     private List<Product> product;
 
     public Store() {}
@@ -43,5 +43,13 @@ public class Store {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
     }
 }
