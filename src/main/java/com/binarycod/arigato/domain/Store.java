@@ -16,7 +16,7 @@ public class Store {
     private Address address;
 
     @ManyToMany
-    @JoinTable(name = "store_product") // is called join table
+    @JoinTable(name = "store_product")
     private List<Product> product;
 
     public Store() {}
