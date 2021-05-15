@@ -4,22 +4,17 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Authority implements GrantedAuthority {
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    String autority;
-
-    @Override
-    public String getAuthority() {
-        return null;
-    }
+    String authority;
 
     public Long getId() {
         return id;
@@ -29,11 +24,12 @@ public class Authority implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getAutority() {
-        return autority;
+    @Override
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setAutority(String autority) {
-        this.autority = autority;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 }
