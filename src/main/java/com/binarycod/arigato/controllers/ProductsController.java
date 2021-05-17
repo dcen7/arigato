@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/products") 
+@RequestMapping("/admin/products")
 public class ProductsController {
 
     @Autowired
@@ -35,20 +35,20 @@ public class ProductsController {
 //        productList.add(product);
         Product p = new Product(id, name, price, size);
         productService.createOrUpdateProduct(p);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id){
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/edit")
     public String editProduct(@RequestParam Long id, Model model){
         Optional<Product> productOptional = productService.getProductById(id);
         if(!productOptional.isPresent())
-            return "redirect:/products";
+            return "redirect:/admin/products";
 
         model.addAttribute("product", productOptional.get());
 
@@ -58,7 +58,7 @@ public class ProductsController {
     @PostMapping("/edit")
     public String saveProduct(Product product){
         productService.createOrUpdateProduct(product);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
 
