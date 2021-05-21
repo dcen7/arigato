@@ -15,14 +15,16 @@ public class Product {
     String name;
     Double price;
     Integer size;
+    String imageUrl;
 
     public Product(){}
 
-    public Product(Long id, String name, Double price, Integer size) {
+    public Product(Long id, String name, Double price, Integer size, String imageUrl ) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.size = size;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -57,4 +59,11 @@ public class Product {
         this.size = size;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
