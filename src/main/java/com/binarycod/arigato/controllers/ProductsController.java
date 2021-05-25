@@ -1,6 +1,8 @@
 package com.binarycod.arigato.controllers;
 
 import com.binarycod.arigato.domain.Product;
+import com.binarycod.arigato.services.AwsS3Service;
+import com.binarycod.arigato.services.ImageService;
 import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ public class ProductsController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    ImageService imageService;
+
     @GetMapping
     public String getProducts(Model model){
        model.addAttribute("products", productService.getAllProducts());
@@ -25,16 +30,14 @@ public class ProductsController {
 
     @GetMapping("/new")
     public String newProduct(Model model){
+        model.addAttribute("images", imageService.getImageList());
         model.addAttribute("product", new Product());
         return "new_product";
     }
 
     @PostMapping
-    public String createProduct(@RequestParam Long id, @RequestParam String name, @RequestParam Double price, @RequestParam Integer size, @RequestParam String imageUrl){
-
-//        productList.add(product);
-        Product p = new Product(id, name, price, size, imageUrl);
-        productService.createOrUpdateProduct(p);
+    public String createProduct(Product product){
+        productService.createOrUpdateProduct(product);
         return "redirect:/admin/products";
     }
 

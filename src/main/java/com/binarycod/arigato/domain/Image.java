@@ -1,7 +1,17 @@
 package com.binarycod.arigato.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Image {
 
+
+    @Id
     private String name;
     private String link;
 
