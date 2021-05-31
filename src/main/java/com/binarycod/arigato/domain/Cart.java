@@ -2,6 +2,7 @@ package com.binarycod.arigato.domain;
 
 import javax.persistence.Id;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Cart {
 
@@ -68,5 +69,12 @@ public class Cart {
     @Override
     public String toString() {
         return ""+cartItemList.size();
+    }
+
+    public void removeItem(UUID uuid) {
+        cartItemList = cartItemList
+                .stream()
+                .filter(cartItem -> !cartItem.getUuid().equals(uuid))
+                .collect(Collectors.toList());
     }
 }
