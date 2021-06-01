@@ -12,12 +12,19 @@ public class Store {
 
     private String name;
 
+    public enum TYPE {
+        OFFLINE,
+        ONLINE
+    };
+
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @ManyToMany
     @JoinTable(name = "store_product") // is called join table
     private List<Product> product;
+
+    private TYPE storeType;
 
     public Store() {}
 
@@ -51,5 +58,13 @@ public class Store {
 
     public void setProduct(List<Product> product) {
         this.product = product;
+    }
+
+    public TYPE getStoreType() {
+        return storeType;
+    }
+
+    public void setStoreType(TYPE storeType) {
+        this.storeType = storeType;
     }
 }
