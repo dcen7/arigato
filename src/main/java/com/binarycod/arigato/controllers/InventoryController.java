@@ -33,7 +33,7 @@ public class InventoryController {
         Optional<Product> optionalProduct = productService.getProductById(id);
 
         if(!optionalProduct.isPresent())
-            return "redirect:/products";
+            return "redirect:/admin/products";
 
         model.addAttribute("product", optionalProduct.get());
         model.addAttribute("productId", id);
@@ -45,7 +45,7 @@ public class InventoryController {
     @PostMapping("/accept_product")
     public String acceptProduct(@RequestParam Long productId, @RequestParam long storeId, @RequestParam Long quantity) {
         inventoryService.acceptProductToInventory(productId,storeId,quantity);
-        return "redirect:/inventory/list?storeId="+storeId;
+        return "redirect:/admin/inventory/list?storeId="+storeId;
     }
 
     @GetMapping("/list")
