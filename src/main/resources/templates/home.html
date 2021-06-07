@@ -19,7 +19,7 @@
                     <div class="col-md-5 col-sm-12 col-xs-12">
                         <div class="product-image">
                             <img th:unless=${#lists.isEmpty(p.images)} th:src="${p.images[0].link}" width="194" height="228" class="img-responsive">
-                            <img th:if=${#lists.isEmpty(p.images)} th:src="@{/images/no-image.png}" width="194" height="228" class="img-responsive">
+                            <img th:if=${#lists.isEmpty(p.images)} th:src="@{/images/No_image_available.svg.png}" width="194" height="228" class="img-responsive">
                             <span class="tag2 hot">
 							HOT
 						</span>
@@ -43,7 +43,7 @@
                         <div class="product-info smart-form">
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <a href="javascript:void(0);" class="btn btn-success">Add to cart</a>
+                                    <a th:href="@{/cart/add/{id}(id=${p.id})}" class="btn btn-success">Add to cart</a>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="rating">
