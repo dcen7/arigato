@@ -112,7 +112,7 @@ public class CartController {
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCurrency("usd")
-                .setAmount(100l)
+                .setAmount((long) (cart.getCartTotalPrice().get() * 100))
                 .build();
 
         try {
