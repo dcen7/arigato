@@ -11,6 +11,7 @@ public class Cart {
     private CustomUser owner;
     private Double totalPrice;
 
+
     public UUID getUuid() {
         return uuid;
     }
@@ -43,7 +44,7 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public Boolean containsItem(UUID uuid){
+    public Boolean containsItem(UUID uuid) {
         Optional<CartItem> item = cartItemList
                 .stream()
                 .filter(cartItem -> cartItem.getUuid().equals(uuid))
@@ -51,38 +52,35 @@ public class Cart {
         return item.isPresent();
     }
 
-    public List<CartItem> getGroupedItems(){
-        Map<String, CartItem> groupedMap = new HashMap<>();
-        for (CartItem item: cartItemList) {
-            if (groupedMap.containsKey(item.getProduct().getName())){
-                CartItem oldItem = groupedMap.get(item.getProduct().getName());
-                oldItem.setQuantity(oldItem.getQuantity() + item.getQuantity());
-                oldItem.setTotalPrice(oldItem.getTotalPrice() + item.getTotalPrice());
-                groupedMap.put(item.getProduct().getName(), oldItem);
-            } else {
-                groupedMap.put(item.getProduct().getName(), item);
-            }
-        }
-        return new ArrayList<CartItem>(groupedMap.values());
-    }
 
-    public Optional<Double> getCartTotalPrice(){
+    public Optional<Double> getCartTotalPrice() {
         return cartItemList
                 .stream()
                 .map(cartItem -> cartItem.getTotalPrice())
                 .reduce((aDouble, aDouble2) -> (aDouble + aDouble2));
     }
 
-
     @Override
     public String toString() {
-        return ""+cartItemList.size();
+        return "" + cartItemList.size();
+
     }
 
     public void removeItem(UUID uuid) {
-        cartItemList = cartItemList
-                .stream()
-                .filter(cartItem -> !cartItem.getUuid().equals(uuid))
-                .collect(Collectors.toList());
+        boolean cartItemIsEmpty = false;
+        for (CartItem cartItem : cartItemList) {
+            if (cartItem.getUuid().equals(uuid)) {
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+                cartItem.setTotalPrice(cartItem.getTotalPrice() - cartItem.getProduct().getPrice());
+                if (cartItem.getQuantity() <= 0) {
+                    cartItemIsEmpty = true;
+                }
+            }
+        }
+        if (cartItemIsEmpty) {
+            cartItemList = cartItemList.stream()
+                    .filter(cartItem -> !cartItem.getUuid().equals(uuid))
+                    .collect(Collectors.toList());
+        }
     }
 }

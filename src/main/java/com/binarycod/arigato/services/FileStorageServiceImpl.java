@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 
-    @Value("${app.upload.dir:${user.home}}")
+    @Value("${app.upload.location:${user.home}}")
     public String storageLocation;
 
     @Override
@@ -37,13 +37,14 @@ public class FileStorageServiceImpl implements FileStorageService{
 
         try {
             Files.copy(file.getInputStream(), uploadLocation, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("URI will be "+ buildUrl(file.getName()).getURI());
+            System.out.println("URI will be " + buildUrl(file.getName()).getURI());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public Resource buildUrl(String filename) {
+
         Path file = Paths.get(storageLocation).resolve(filename);
         try {
             Resource resource = new UrlResource(file.toUri());
@@ -51,13 +52,14 @@ public class FileStorageServiceImpl implements FileStorageService{
         } catch (MalformedURLException e) {
             throw new RuntimeException(e.getMessage());
         }
+
     }
 
     @Override
     public Stream<Path> loadAll() {
         Path root = Paths.get(storageLocation);
         try {
-            return Files.walk(root, 1).filter(path -> !path.equals(root)).map(root :: relativize);
+            return Files.walk(root, 1).filter(path -> !path.equals(root)).map(root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load files");
         }
